@@ -48,19 +48,19 @@ Accessibility automation on a real desktop is not always available cleanly.
 Climb a ladder of approaches, and when a rung is blocked, record *why* before
 trying the next one:
 
-1. **Scripting API** (e.g. an OS-level accessibility scripting bridge) — the
-   cheap default. Blocked signature: a permission error before any command
-   runs (no Accessibility grant).
-2. **UI-test harness** (a first-class automated-testing framework for the
-   platform) — the "proper" way to drive the real app end to end. Blocked
-   signature: the harness process itself never establishes its automation
-   session (e.g. an unsigned test runner killed before it attaches) — that's
-   the harness failing to bootstrap, not a bug in the app under test.
-3. **Raw input injection** (a coordinate-based click/keystroke tool plus a
-   screenshot after each action) — the fallback of last resort when both of
-   the above are blocked. Coarser than element-indexed driving, so screenshot
-   after every action and confirm the click landed on the intended window
-   before trusting the result.
+1. **Accessibility scripting** (on macOS, `osascript`/AppleScript) — the cheap
+   default. Blocked signature: a permission error before any command runs
+   (no Accessibility grant, e.g. `osascript` error `-1719`).
+2. **UI-test harness** (on macOS, an XCUITest automation session) — the
+   "proper" way to drive the real app end to end. Blocked signature: the
+   harness process itself never establishes its automation session (an
+   unsigned test runner killed before it attaches) — that's the harness
+   failing to bootstrap, not a bug in the app under test.
+3. **Raw input injection** (on macOS, a coordinate-clicking tool such as
+   `cliclick` plus `screencapture` after each action) — the fallback of last
+   resort when both of the above are blocked. Coarser than element-indexed
+   driving, so screenshot after every action and confirm the click landed on
+   the intended window before trusting the result.
 
 Every rung you tried belongs in the report, including the ones that failed —
 not only the one that worked. Diagnose each blocked rung enough to state the
