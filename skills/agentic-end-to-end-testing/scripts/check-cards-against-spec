@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# check-cards-against-spec — verify scenario cards carry their spec table's
+# falsification lines verbatim. See authoring-cards-from-a-spec.md.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: check-cards-against-spec <spec.md> <cards-dir>
+
+Verifies the spec's "E2E scenario cards" table against the cards directory:
+  1. table parses (>=1 row; non-empty Card and Falsification cells)
+  2. every row has <cards-dir>/<card>.md
+  3. every card contains its Falsification line verbatim
+     (whitespace-normalized, fixed-string, case-sensitive)
+  4. every card has **What this covers** (bold inline) and ## headings
+     Pre-state, Steps, Expected, Cleanup (Sharp edges not required)
+  5. extra cards in <cards-dir> are reported as warnings, not failures
+
+Exit: 0 all pass; 1 check failed; 2 no "E2E scenario cards" table; 64 usage.
+EOF
+}
+
+[ "${1:-}" = "--help" ] && { usage; exit 0; }
+[ $# -eq 2 ] || { usage >&2; exit 64; }
+SPEC="$1"; CARDS="$2"
+[ -f "$SPEC" ] || { echo "error: spec not found: $SPEC" >&2; exit 64; }
+[ -d "$CARDS" ] || { echo "error: cards dir not found: $CARDS" >&2; exit 64; }
+
+FAILURES=0
+fail() { echo "FAIL: $1"; FAILURES=$((FAILURES + 1)); }
+warn() { echo "warn: $1"; }
+
+# Collapse every whitespace run to one space; trim ends. (Normative per the
+# design spec: markdown re-wrapping must not defeat the verbatim check.)
+normalize() { tr -s '[:space:]' ' ' | sed -e 's/^ //' -e 's/ $//'; }
+
+# --- extract the first table under the (case-insensitive) heading ----------
+TABLE="$(awk '
+  /^#{1,6}[[:space:]]/ {
+    h = $0; sub(/^#+[[:space:]]*/, "", h); sub(/[[:space:]]+$/, "", h)
+    if (tolower(h) == "e2e scenario cards") { insec = 1; next }
+    if (insec) exit
+  }
+  insec && /^[[:space:]]*\|/ { intable = 1; print; next }
+  insec && intable { exit }
+' "$SPEC")"
+
+if [ -z "$TABLE" ]; then
+  echo "no scenario table: $SPEC has no \"E2E scenario cards\" heading with a table under it" >&2
+  exit 2
+fi
+
+# --- parse: protect escaped pipes, split rows into cells -------------------
+US=$'\x1f'
+CARD_COL=-1; FALS_COL=-1; ROWS=0
+declare -a ROW_CARD ROW_FALS
+
+lineno=0
+while IFS= read -r line; do
+  lineno=$((lineno + 1))
+  esc="${line//\\|/$US}"
+  IFS='|' read -r -a cells <<< "$esc"
+  # drop leading/trailing empty fields produced by the outer pipes
+  trimmed=()
+  for c in "${cells[@]}"; do
+    c="${c//$US/|}"
+    c="$(printf '%s' "$c" | normalize)"
+    trimmed+=("$c")
+  done
+  # cells[0] is empty (before first |); last may be empty too
+  if [ "$lineno" -eq 1 ]; then
+    for i in "${!trimmed[@]}"; do
+      low="$(printf '%s' "${trimmed[$i]}" | tr '[:upper:]' '[:lower:]')"
+      [ "$low" = "card" ] && CARD_COL=$i
+      [ "$low" = "falsification" ] && FALS_COL=$i
+    done
+    continue
+  fi
+  # separator row: cells of dashes/colons only
+  joined="$(printf '%s' "${trimmed[*]}" | tr -d ' :-')"
+  [ -z "$joined" ] && continue
+  if [ "$CARD_COL" -lt 0 ] || [ "$FALS_COL" -lt 0 ]; then
+    fail "table header must name Card and Falsification columns"
+    break
+  fi
+  card="${trimmed[$CARD_COL]:-}"
+  falsif="${trimmed[$FALS_COL]:-}"
+  card="${card//\`/}"          # tolerate `card-name` backticks in the cell
+  if [ -z "$card" ] || [ -z "$falsif" ]; then
+    fail "row $lineno: empty Card or Falsification cell"
+    continue
+  fi
+  ROW_CARD[$ROWS]="$card"; ROW_FALS[$ROWS]="$falsif"; ROWS=$((ROWS + 1))
+done <<< "$TABLE"
+
+[ "$ROWS" -ge 1 ] || fail "scenario table has no data rows"
+
+# --- checks 2-4 per row -----------------------------------------------------
+i=0
+while [ "$i" -lt "$ROWS" ]; do
+  card="${ROW_CARD[$i]}"; falsif="${ROW_FALS[$i]}"
+  f="$CARDS/$card.md"
+  if [ ! -f "$f" ]; then
+    fail "missing card file: $f"
+    i=$((i + 1)); continue
+  fi
+  hay="$(normalize < "$f")"
+  case "$hay" in
+    *"$falsif"*) : ;;
+    *) fail "$f: falsification line not present verbatim.
+       expected (normalized): $falsif" ;;
+  esac
+  grep -q '\*\*What this covers\*\*' "$f" || fail "$f: missing **What this covers**"
+  for sec in Pre-state Steps Expected Cleanup; do
+    grep -Eiq "^#{2,}[[:space:]]*${sec}" "$f" || fail "$f: missing ## ${sec} section"
+  done
+  i=$((i + 1))
+done
+
+# --- check 5: extra cards are warnings --------------------------------------
+for f in "$CARDS"/*.md; do
+  [ -e "$f" ] || continue
+  base="$(basename "$f" .md)"
+  known=0; i=0
+  while [ "$i" -lt "$ROWS" ]; do
+    [ "${ROW_CARD[$i]}" = "$base" ] && known=1
+    i=$((i + 1))
+  done
+  [ "$known" -eq 1 ] || warn "extra card not in spec table: $base"
+done
+
+if [ "$FAILURES" -gt 0 ]; then
+  echo "$FAILURES check(s) failed"
+  exit 1
+fi
+echo "all checks passed ($ROWS card(s))"
