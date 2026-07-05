@@ -54,7 +54,7 @@ free.
   if (q.get("mode") === "title") {
     document.body.innerHTML = '<div class="title"><h1>App Name</h1><p>one-line tagline</p></div>';
   } else if (q.get("mode") === "end") {
-    document.body.innerHTML = '<div class="title dark"><p>deployed to production · <date></p><p class="accent">App Name — org</p></div>';
+    document.body.innerHTML = '<div class="title dark"><p>deployed to production · [DATE]</p><p class="accent">App Name — org</p></div>';
   } else {
     document.body.innerHTML = '<img class="frame" src="' + q.get("img") + '"><div class="bar">' + q.get("cap") + '</div>';
   }
