@@ -73,6 +73,7 @@ digraph process {
     "More tasks remain?" [shape=diamond];
     "Dispatch final code reviewer (../requesting-code-review/code-reviewer.md)" [shape=box];
     "Final findings? ONE fix dispatch, one scoped re-review, adjudicate residuals" [shape=box];
+    "Offer spec-derived e2e verification (./spec-derived-e2e.md)" [shape=box];
     "Final review clean: delete this plan's workspace" [shape=box];
     "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
@@ -102,7 +103,8 @@ digraph process {
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer (../requesting-code-review/code-reviewer.md)" [label="no"];
     "Dispatch final code reviewer (../requesting-code-review/code-reviewer.md)" -> "Final findings? ONE fix dispatch, one scoped re-review, adjudicate residuals";
-    "Final findings? ONE fix dispatch, one scoped re-review, adjudicate residuals" -> "Final review clean: delete this plan's workspace";
+    "Final findings? ONE fix dispatch, one scoped re-review, adjudicate residuals" -> "Offer spec-derived e2e verification (./spec-derived-e2e.md)";
+    "Offer spec-derived e2e verification (./spec-derived-e2e.md)" -> "Final review clean: delete this plan's workspace";
     "Final review clean: delete this plan's workspace" -> "Use superpowers:finishing-a-development-branch";
 }
 ```
@@ -413,32 +415,15 @@ rulings, or stop on load-bearing ones. There is no second fix wave —
 residual load-bearing findings surface to your human partner when
 finishing-a-development-branch presents the options.
 
-## Optional: Spec-Derived E2E Verification
+## Before Finishing: Offer E2E Verification
 
-Applies only when a spec governing the code the plan touches — the spec
-the plan implements, or a repo spec covering that surface — contains an
-"E2E scenario cards" section, or your human partner asked for end-to-end
-verification. Otherwise this section does not apply — skip it entirely.
-
-- At skill start, when you read the plan, open the spec it names — and if
-  it names none, check the repo's spec directory (e.g.
-  `docs/superpowers/specs/`) for specs governing the code the plan
-  touches — and check for an "E2E scenario cards" section. If present,
-  add a pending "spec-derived e2e verification" item to your todo list
-  and the progress ledger so compaction cannot lose it.
-- After the final whole-branch review passes: use
-  superpowers:agentic-end-to-end-testing. Dispatch a card-author subagent
-  per its authoring-cards-from-a-spec.md, run its
-  scripts/check-cards-against-spec yourself on the author's output
-  (self-attestation is not the gate), then dispatch a runner subagent per
-  its runner-prompt.md against the built branch.
-- Card FAILs are findings: dispatch ONE fix subagent with the complete
-  list, then re-run the failed cards. The card author never fixes. Fix-wave
-  commits land after the final review, so give the fix diff its own
-  task-review gate before finishing — a green re-run alone does not ship
-  unreviewed changes.
-- Results land before superpowers:finishing-a-development-branch, so
-  "ready to merge" includes live-scenario evidence.
+After the final whole-branch review passes and before
+superpowers:finishing-a-development-branch, offer your human partner
+spec-derived e2e verification: scenario cards derived from the governing
+spec, run live against the built branch. If they accept — or asked for
+end-to-end verification earlier — follow
+[spec-derived-e2e.md](spec-derived-e2e.md). If they decline, proceed to
+finishing.
 
 ## Finish
 

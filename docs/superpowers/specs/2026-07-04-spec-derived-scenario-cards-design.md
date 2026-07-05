@@ -227,6 +227,17 @@ shipped form governs.
   touches, not the plan-named spec alone — plan-named-spec-only wiring
   skipped the step when the plan named no spec (GREEN iteration 1); the
   opt-out for spec-less repos is preserved.
+- **SDD integration restructured (2026-07-05, maintainer direction):** the
+  predicate-keyed at-skill-start detection in §3 is replaced by an
+  unconditional offer to the human after the final whole-branch review and
+  before finishing-a-development-branch — the human decides, not a spec
+  predicate. The procedure (spec discovery, author/checker/runner flow,
+  fix-wave rules) moved to a disclosure doc,
+  `skills/subagent-driven-development/spec-derived-e2e.md`; SKILL.md keeps
+  only the offer plus a reference, and the SDD flowchart now carries the
+  offer node (superseding §3's "flowchart is not modified"). Spec-less
+  repos surface "nothing to derive from" at offer time instead of skipping
+  silently.
 
 ## Decisions
 
