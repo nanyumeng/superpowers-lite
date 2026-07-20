@@ -71,7 +71,11 @@ independently testable deliverable.
 [The spec's project-wide requirements — version floors, dependency limits,
 naming and copy rules, platform requirements — one line each, with exact
 values copied verbatim from the spec. Every task's requirements implicitly
-include this section.]
+include this section. Three things may never enter it: cosmetic absolutes
+on every commit (a fixed trailer or byline the work does not need), your
+own identity or model name promoted into a rule, and environment
+constraints (versions, platforms, paths) you have not verified against the
+environment the plan will execute in.]
 
 ---
 ```
@@ -123,6 +127,8 @@ Expected: PASS
 git add tests/path/test.py src/path/file.py
 git commit -m "feat: add specific feature"
 ```
+
+Commit messages describe the change. Never mandate session boilerplate — trailers, bylines, model names — as a per-commit rule; what your session stamps on its commits is not a requirement of the work.
 ````
 
 ## No Placeholders
@@ -144,6 +150,11 @@ After writing the complete plan, look at the spec with fresh eyes and check the 
 **2. Placeholder scan:** Search your plan for red flags — any of the patterns from the "No Placeholders" section above. Fix them.
 
 **3. Type consistency:** Do the types, method signatures, and property names you used in later tasks match what you defined in earlier tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 is a bug.
+
+**4. Constraint hygiene:** Does any Global Constraint mandate a per-commit
+cosmetic absolute, name the authoring model or session, or assert an
+environment fact (version floor, platform, path) you did not verify? Cut
+or verify it.
 
 If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
 
