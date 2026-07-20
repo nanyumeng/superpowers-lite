@@ -42,8 +42,12 @@ Subagent (general-purpose):
     2. Write tests (following TDD if task says to)
     3. Verify implementation works
     4. Commit your work
-    5. Self-review (see below)
-    6. Report back
+    5. Immediately after each commit, verify it against the Binding Constraint
+       Values above (commit-message rules, naming rules, fixed literals) while
+       history is still local. A miss is cheap now — amend or forward-fix at
+       once — and expensive after your work is delivered.
+    6. Self-review (see below)
+    7. Report back
 
     Work from: [directory]
 
@@ -101,6 +105,10 @@ Subagent (general-purpose):
     - Did I avoid overbuilding (YAGNI)?
     - Did I only build what was requested?
     - Did I follow existing patterns in the codebase?
+
+    **Constraints:**
+    - Does every commit message satisfy the Binding Constraint Values exactly?
+    - Did I reproduce mandated literals from the constraint text, not from memory?
 
     **Testing:**
     - Do tests actually verify behavior (not just mock behavior)?
