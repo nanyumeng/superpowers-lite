@@ -59,9 +59,15 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-jesse@primeradiant.com.
-All complaints will be reviewed and investigated promptly and fairly.
+reported to the Superpowers Lite maintainer. During pre-release, a dedicated
+confidential conduct address has not yet been configured. Do not include
+sensitive incident details in a public issue. Use the maintainer's
+[GitHub profile](https://github.com/nanyumeng) to request a private contact
+channel without describing the incident publicly.
+
+A dedicated private reporting address must be documented here before the
+repository is announced as community-ready. Complaints received through the
+private channel will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.

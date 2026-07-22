@@ -1,0 +1,17 @@
+Superpowers Lite
+
+This project is an independent, unofficial derivative of Superpowers:
+https://github.com/obra/superpowers
+
+Upstream baseline: Superpowers v6.1.1, commit d884ae0.
+
+Original work:
+Copyright (c) 2025 Jesse Vincent
+
+Superpowers Lite modifications are maintained by nanyumeng and contributors.
+The original work and Lite modifications are distributed under the MIT License
+in the accompanying LICENSE file.
+
+The names Superpowers, Jesse Vincent, Prime Radiant, OpenAI, Anthropic, and
+their respective marks belong to their owners. Superpowers Lite is not
+affiliated with or endorsed by the upstream project, OpenAI, or Anthropic.
