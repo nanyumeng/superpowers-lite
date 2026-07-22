@@ -18,10 +18,11 @@
 - **30%+ fewer tokens in maintainer field use.** Ongoing real-project work has
   been faster and produced better-focused first-pass results with less
   unnecessary development. This is an observation, not a universal guarantee.
-- **Plain Markdown skill files, safe and reversible.** Installation backs up
-  and replaces only the local `skills/` directory. It runs no installer and
-  changes no application code or project configuration; Rollback uses the
-  Backup created before replacement.
+- **Reviewable skill instructions, safe and reversible.** Core behavior is
+  defined in Markdown alongside the small helper scripts used by the skills.
+  Installation backs up and replaces only the local `skills/` directory. It
+  runs no installer and changes no application code or project configuration;
+  Rollback uses the Backup created before replacement.
 
 Install Superpowers normally, then let your coding agent replace its complete
 `skills/` directory with this repository's `skills/`. Existing projects do not
