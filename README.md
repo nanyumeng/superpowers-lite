@@ -6,11 +6,26 @@
 
 [简体中文](README.zh-CN.md)
 
-Superpowers Lite keeps the familiar Superpowers workflow, skill names, and
-project file structure while removing repeated and overly prescriptive legacy
-instructions. Existing projects do not need to rename their skills, specs, or
-plans. Install Superpowers normally, then let your coding agent back up and
-replace its complete `skills/` directory with this repository's `skills/`.
+**Why use it:**
+
+- **Lighter for modern models.** Simplified in the direction of the official
+  [GPT-5.6 prompting guidance](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6)
+  and [Claude Fable 5 prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5):
+  less repetition and legacy over-prescription.
+- **Same workflow and file structure.** Skill names, the main development
+  process, `docs/superpowers/specs/`, and `docs/superpowers/plans/` stay
+  compatible with existing Superpowers projects.
+- **30%+ fewer tokens in maintainer field use.** Ongoing real-project work has
+  been faster and produced better-focused first-pass results with less
+  unnecessary development. This is an observation, not a universal guarantee.
+- **Plain Markdown skill files, safe and reversible.** Installation backs up
+  and replaces only the local `skills/` directory. It runs no installer and
+  changes no application code or project configuration; Rollback uses the
+  Backup created before replacement.
+
+Install Superpowers normally, then let your coding agent replace its complete
+`skills/` directory with this repository's `skills/`. Existing projects do not
+need to rename skills, specs, plans, or project instructions.
 
 This is an unofficial, independently maintained derivative. It is not endorsed
 by Superpowers, OpenAI, or Anthropic.
@@ -96,48 +111,25 @@ do not only explain the steps.
 
 Source: https://github.com/nanyumeng/superpowers-lite
 
-Goal: keep the harness adapter from my active Superpowers installation, create
-a recoverable Backup of its complete `skills/` directory, and replace that
-directory with the repository's complete `skills/` directory.
+1. Find the one active Superpowers installation and its exact `skills/` path
+   using this harness's plugin metadata or manager. If Superpowers is absent,
+   install upstream Superpowers through the harness's native method first. If
+   paths are ambiguous, stop and ask me.
+2. Download https://github.com/nanyumeng/superpowers-lite to a temporary
+   directory and validate `skills/using-superpowers/SKILL.md`. If its complete
+   `skills/` tree already matches the active one, report that no update is needed.
+3. Show the active path and a unique timestamped Backup path, then move the
+   complete active `skills/` directory to that Backup. Do not delete, merge, or
+   overwrite anything.
+4. Copy the complete superpowers-lite `skills/` directory into the original
+   location. Preserve every file outside `skills/`, then verify the installed
+   and downloaded trees match recursively and the Backup is intact.
+5. Report the original version, installed path, Backup path, source commit,
+   verification result, restart/new-session requirement, and an exact Rollback
+   command. Do not execute Rollback.
 
-Rules:
-
-1. Detect the current harness and operating system. Use the harness's plugin
-   metadata, plugin manager, and harness-owned directories to locate the one
-   active Superpowers installation. Do not perform an unbounded search of my
-   home directory.
-2. If Superpowers is not installed, use this harness's supported native method
-   to install upstream Superpowers from https://github.com/obra/superpowers
-   first. Do not imitate installation by editing global AGENTS.md, CLAUDE.md,
-   shell profiles, or unrelated personal configuration.
-3. Resolve the exact active `skills/` directory and the installed Superpowers
-   version when available. If multiple active installations or ambiguous paths
-   exist, stop and ask me before changing anything.
-4. Clone or download https://github.com/nanyumeng/superpowers-lite into a
-   temporary directory. Validate that
-   `skills/using-superpowers/SKILL.md` and all top-level skill directories are
-   present.
-5. Compare the source and active skills. If they already match recursively,
-   report that Superpowers Lite is current and make no changes.
-6. Before replacement, show the exact active path and planned Backup path. This
-   prompt authorizes you to replace only that uniquely resolved `skills/`
-   directory.
-7. Move the complete active `skills/` directory to a unique sibling Backup
-   whose name includes the detected version or `unknown`, plus a UTC timestamp.
-   Never overwrite an existing Backup. Do not merge old and new skill trees and
-   do not use irreversible deletion.
-8. Copy the complete Superpowers Lite `skills/` directory into the original
-   active location. Preserve the existing plugin manifest, hooks, loader,
-   extension, permissions, and every file outside `skills/`.
-9. Verify recursively that the installed skills match the downloaded
-   superpowers-lite skills, that the Backup still contains
-   `using-superpowers/SKILL.md`, and that only one skill source is active.
-10. Report the installed path, detected original version, Backup path, source
-    commit, verification result, whether a restart/new session is required, and
-    an exact Rollback command. Do not execute Rollback.
-
-Do not claim success without fresh verification. Do not modify any application
-project or its `docs/superpowers/specs/` and `docs/superpowers/plans/` files.
+Change no application project, project configuration, AGENTS.md, CLAUDE.md, or
+`docs/superpowers/` content. Do not claim success without fresh verification.
 ```
 
 After installation, restart the harness or open a new session. The UI may still
