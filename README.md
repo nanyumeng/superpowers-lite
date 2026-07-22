@@ -1,273 +1,219 @@
-# Superpowers
+# Superpowers Lite
+
+> An unofficial, lightweight derivative of
+> [Superpowers](https://github.com/obra/superpowers), optimized for stronger
+> coding models such as GPT-5.6 and Claude Fable 5.
+
+[简体中文](README.zh-CN.md)
+
+Superpowers Lite keeps the project structure, skill names, and main development
+workflow of Superpowers while removing rules that newer models often no longer
+need. It is intended for existing Superpowers projects that want to reduce
+prompt overhead without rewriting their specs, plans, or agent instructions.
+
+This project is maintained independently by
+[@nanyumeng](https://github.com/nanyumeng). It is not an official Superpowers
+edition and is not endorsed by Superpowers, OpenAI, or Anthropic.
+
+## Why Lite?
+
+Superpowers established a valuable, repeatable path from an idea to verified
+code. Its stronger rules were also designed to constrain earlier or less
+reliable agents. On GPT-5.6 and Claude Fable 5, our experience is that applying
+the same heavy process to every task can produce the opposite result:
+
+- small changes expand into unnecessary specifications, dispatches, and review
+  loops;
+- repeated instructions consume context and compete with project-specific
+  requirements;
+- excessive orchestration can reduce the model's ability to make direct,
+  context-aware decisions;
+- more activity and more tokens do not necessarily produce a better result.
+
+Lite does not remove engineering discipline. It makes that discipline
+proportional to ambiguity and risk: direct work for small, clear changes; a
+full design and planning path for new or unclear features; strict testing and
+fresh verification for production behavior.
+
+## Superpowers vs. Superpowers Lite
+
+| Area | Upstream Superpowers | Superpowers Lite |
+|---|---|---|
+| Main workflow | Brainstorm → spec → plan → execute → verify → finish | Preserved |
+| Existing project docs | `docs/superpowers/specs/` and `docs/superpowers/plans/` | Preserved |
+| Skill references | `superpowers:*` | Preserved for project compatibility |
+| Small, explicit changes | May activate several workflow skills | Direct TDD and verification are allowed |
+| New or ambiguous features | Design and plan first | Design and plan first |
+| Execution default | Subagent-driven development is prominent | Single-agent execution by default; delegate only when tasks are independent, high-risk, or explicitly requested |
+| Review loops | Strong multi-stage review discipline | Bounded review selected by risk and change size |
+| Debugging | Systematic workflow strongly enforced | Systematic workflow reserved for complex, recurring, or failed first attempts |
+| Safety | Destructive actions and completion claims are guarded | Preserved; safety and verification are not optional |
+| Core skill text at the current baseline | 3,322 lines | 1,053 lines, 68.3% less text |
+
+The line-count reduction measures the instructions shipped by the project. It
+does **not** mean every task uses 68.3% fewer tokens.
+
+## Early real-project observation
+
+The initial motivation came from one long-running authorization project in a
+single Codex conversation. We divided the session at the point where the local
+installation switched from upstream Superpowers to Lite.
+
+| Phase | Completed work turn | Processed tokens* | Outcome observed in the project |
+|---|---|---:|---|
+| Upstream Superpowers | Main authorization implementation | 57,632,709 | 75 minutes; human acceptance later found omitted production capabilities and an unnecessary replacement UI, requiring repair |
+| Superpowers Lite | Authorization E2E suite redesign | 12,750,549 | 17.7 minutes; reduced 536 matrix entries to a five-case main gate, ran it once, and correctly classified the only failure as an obsolete fixture rather than a product defect |
+
+\* Processed tokens are Codex-reported input plus output, including cached
+input. They are a workload measure, not an API bill.
+
+These are different work items inside the same project, so the raw 77.9%
+difference is **not** a controlled performance claim. The repair turn also
+crossed the installation boundary and is excluded from attribution. Based on
+the broader work completed after the switch, the maintainer's current practical
+estimate is that Lite reduced token use by **at least about 30%** while producing
+more focused first-pass results. Treat that number as a preliminary field
+observation; we will replace or refine it with repeated, matched evaluations.
+
+A separate three-task micro-check is published in
+[the preliminary GPT-5.6 comparison](docs/benchmarks/2026-07-22-gpt-5.6-sol-comparison.md).
+Both variants passed all three tasks; Lite used 2.8% fewer processed tokens and
+22.2% fewer fresh-input tokens in that small sample. It did not establish an
+accuracy advantage. We publish the mixed result because Lite should be judged
+by reproducible evidence, not only its best session.
+
+## Why revisit older prompts now?
+
+Lite's direction is consistent with current official model guidance, although
+neither vendor has evaluated or endorsed this project:
+
+- [OpenAI's GPT-5.6 prompting best practices](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6)
+  recommend leaner prompts, removing repeated instructions and unnecessary
+  examples, and validating changes on representative tasks. OpenAI also advises
+  stating each instruction once and keeping autonomy policies compact.
+- [Anthropic's Claude Fable 5 prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5)
+  recommends revisiting prompts and skills written for older models, noting
+  that overly prescriptive legacy instructions can degrade newer-model output.
+
+These documents support re-evaluation, not a blanket conclusion that fewer
+instructions are always better. Lite retains the rules whose removal would
+weaken safety, correctness, or user control.
+
+## Workflow
+
+The familiar Superpowers structure remains intact:
 
-Superpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
+1. **Brainstorm** when the request is a new feature or the scope is ambiguous.
+2. Save the approved specification under `docs/superpowers/specs/`.
+3. **Write a plan** under `docs/superpowers/plans/` when implementation spans
+   multiple meaningful steps.
+4. **Execute** with one agent by default, or use subagents when isolation and
+   parallelism provide a concrete benefit.
+5. Apply **test-driven development** to production behavior changes.
+6. Run **fresh verification** before claiming completion.
+7. Review and finish the branch with a process proportional to its risk.
 
+Small documentation, configuration, or single-file changes with explicit
+success criteria can go directly to implementation and verification.
 
-## We're Hiring!
+## Who should use Lite?
 
-We're hiring someone to help out full time with Superpowers community and code work. 
-You can read about the job at https://primeradiant.com/jobs/superpowers-community-engineer/
-If this sounds like someone you know, definitely send them our way.
+Lite is a good fit when:
 
-## Quickstart
+- your repository already refers to `superpowers:*` skills or stores specs and
+  plans in the Superpowers directory layout;
+- you use a newer strong model and see repeated planning, review, or delegation
+  add cost without improving the result;
+- you want to keep TDD, verification, and safety boundaries while giving the
+  model more room to use its own judgment.
 
-Give your agent Superpowers: [Claude Code](#claude-code), [Antigravity](#antigravity), [Codex App](#codex-app), [Codex CLI](#codex-cli), [Cursor](#cursor), [Factory Droid](#factory-droid), [GitHub Copilot CLI](#github-copilot-cli), [Kimi Code](#kimi-code), [OpenCode](#opencode), [Pi](#pi).
+Prefer upstream Superpowers when you value maximum procedural enforcement,
+depend on its exact multi-agent review behavior, or have not observed the
+overhead Lite is designed to address. For high-risk work, Lite should still be
+configured conservatively.
 
-## How it works
+## Installation status
 
-It starts from the moment you fire up your coding agent. As soon as it sees that you're building something, it *doesn't* just jump into trying to write code. Instead, it steps back and asks you what you're really trying to do. 
+The first public release, `v6.1.1-lite.1`, is being prepared. The repository
+will be published at
+[`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite).
+Release-specific installation commands will be added only after package names,
+manifests, bootstrap behavior, upgrade, and rollback have been verified.
 
-Once it's teased a spec out of the conversation, it shows it to you in chunks short enough to actually read and digest. 
+Do not enable upstream Superpowers and Superpowers Lite in the same harness.
+They intentionally use the same `superpowers:*` skill namespace for existing
+project compatibility, so a simultaneous installation would make skill
+resolution ambiguous.
 
-After you've signed off on the design, your agent puts together an implementation plan that's clear enough for an enthusiastic junior engineer with poor taste, no judgement, no project context, and an aversion to testing to follow. It emphasizes true red/green TDD, YAGNI (You Aren't Gonna Need It), and DRY. 
+## Compatibility
 
-Next up, once you say "go", it launches a *subagent-driven-development* process, having agents work through each engineering task, inspecting and reviewing their work, and continuing forward. It's not uncommon for your agent to work autonomously for a couple hours at a time without deviating from the plan you put together.
+Lite keeps the upstream directory layout and harness adapters, but support is
+reported by evidence rather than by file presence:
 
-There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
+| Harness | Pre-release status |
+|---|---|
+| Codex App / CLI | Core package, manifest, sync, and bootstrap tests pass; public install flow pending |
+| Claude Code / Cursor | Adapter retained; release install verification pending |
+| OpenCode / Kimi Code | Existing loader and manifest tests pass; end-to-end release verification pending |
+| Pi / Antigravity | Experimental; known tool-mapping gaps remain under review |
 
-## Commercial Services
+## Relationship to upstream
 
-If you're using Superpowers in enterprise and could benefit from commercial support, additional tooling, or managed spending, please don't hesitate to drop us a line at sales@primeradiant.com.
+Superpowers Lite is derived from
+[`obra/superpowers`](https://github.com/obra/superpowers) v6.1.1 at commit
+`d884ae0`. The original MIT license and attribution are preserved.
 
-## Installation
+The Lite direction overlaps with upstream discussions about token budgets,
+dispatch thresholds, and unbounded repair loops, including
+[#1152](https://github.com/obra/superpowers/issues/1152),
+[#1194](https://github.com/obra/superpowers/issues/1194),
+[#1917](https://github.com/obra/superpowers/issues/1917), and
+[#1988](https://github.com/obra/superpowers/issues/1988). These reports help
+explain the problem space; they do not imply upstream agreement with Lite.
 
-Installation differs by harness. If you use more than one, install Superpowers separately for each one.
+Broad skill-policy changes are unlikely to belong in upstream core without
+substantial evaluation evidence. We therefore maintain Lite independently.
+When testing reveals a small, general, non-fork-specific defect, we will search
+existing issues and pull requests first and contribute a focused fix under the
+upstream project's rules. We will not use upstream issues to promote this fork.
 
-### Claude Code
+## Evaluation roadmap
 
-Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
+Before making a stable efficiency claim, we plan to publish matched upstream
+and Lite runs covering documentation changes, small bugs, cross-file features,
+complex debugging, and genuinely parallel work. Each comparison will record:
 
-#### Official Marketplace
+- model, reasoning effort, harness version, and exact skill revision;
+- cached input, fresh input, output, processed tokens, time, and subagent count;
+- functional correctness, scope compliance, retries, and human acceptance;
+- repeated runs rather than a selected best result.
 
-- Install the plugin from Anthropic's official marketplace:
+Claude Fable 5 evaluation has not yet been run.
 
-  ```bash
-  /plugin install superpowers@claude-plugins-official
-  ```
+## Issues and pull requests
 
-#### Superpowers Marketplace
+External issues and pull requests will open with the first public release.
+Reports should include the model and harness, exact Lite revision, a real
+reproduction, expected and actual behavior, and a clear token-counting method
+for efficiency claims. Skill behavior changes should include matched before
+and after evidence. One problem per pull request.
 
-The Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.
+AI-assisted contributions are welcome when the author discloses the model,
+harness, and relevant tools and has personally reviewed the complete diff.
 
-- Register the marketplace:
+## Privacy and telemetry
 
-  ```bash
-  /plugin marketplace add obra/superpowers-marketplace
-  ```
+The public release is being prepared from a clean history that excludes local
+session transcripts, machine paths, credentials, and private research notes.
+Runtime network requests and inherited branding are also being audited before
+release. The README will document any remaining optional request and its opt-out;
+undocumented telemetry is not an acceptable release state.
 
-- Install the plugin from this marketplace:
+## License and acknowledgements
 
-  ```bash
-  /plugin install superpowers@superpowers-marketplace
-  ```
+MIT licensed. See [LICENSE](LICENSE).
 
-### Antigravity
-
-Install Superpowers as a plugin from this repository:
-
-```bash
-agy plugin install https://github.com/obra/superpowers
-```
-
-Antigravity runs the plugin's session-start hook, so Superpowers is active from
-the first message. Reinstall with the same command to update.
-
-### Codex App
-
-Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
-
-- In the Codex app, click on Plugins in the sidebar.
-- You should see `Superpowers` in the Coding section.
-- Click the `+` next to Superpowers and follow the prompts.
-
-### Codex CLI
-
-Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
-
-- Open the plugin search interface:
-
-  ```bash
-  /plugins
-  ```
-
-- Search for Superpowers:
-
-  ```bash
-  superpowers
-  ```
-
-- Select `Install Plugin`.
-
-### Cursor
-
-- In Cursor Agent chat, install from marketplace:
-
-  ```text
-  /add-plugin superpowers
-  ```
-
-- Or search for "superpowers" in the plugin marketplace.
-
-### Factory Droid
-
-- Register the marketplace:
-
-  ```bash
-  droid plugin marketplace add https://github.com/obra/superpowers
-  ```
-
-- Install the plugin:
-
-  ```bash
-  droid plugin install superpowers@superpowers
-  ```
-
-### GitHub Copilot CLI
-
-- Register the marketplace:
-
-  ```bash
-  copilot plugin marketplace add obra/superpowers-marketplace
-  ```
-
-- Install the plugin:
-
-  ```bash
-  copilot plugin install superpowers@superpowers-marketplace
-  ```
-
-### Kimi Code
-
-Superpowers is available in Kimi Code's plugin marketplace.
-
-- Open Kimi Code's plugin manager:
-
-  ```text
-  /plugins
-  ```
-
-- Go to `Marketplace` > `Superpowers` and install it.
-
-- Or install directly from this repository:
-
-  ```text
-  /plugins install https://github.com/obra/superpowers
-  ```
-
-- Detailed docs: [docs/README.kimi.md](docs/README.kimi.md)
-
-### OpenCode
-
-OpenCode uses its own plugin install; install Superpowers separately even if you
-already use it in another harness.
-
-- Tell OpenCode:
-
-  ```
-  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
-  ```
-
-- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)
-
-### Pi
-
-Install Superpowers as a Pi package from this repository:
-
-```bash
-pi install git:github.com/obra/superpowers
-```
-
-For local development, run Pi with this checkout loaded as a temporary package:
-
-```bash
-pi -e /path/to/superpowers
-```
-
-The Pi package loads the Superpowers skills and a small extension that injects the `using-superpowers` bootstrap at session startup and again after compaction. Pi has native skills, so no compatibility `Skill` tool is required. Subagent and task-list tools remain optional Pi companion packages.
-
-## The Basic Workflow
-
-1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
-
-2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
-
-3. **writing-plans** - Activates with approved design. Breaks work into bite-sized tasks (2-5 minutes each). Every task has exact file paths, complete code, verification steps.
-
-4. **subagent-driven-development** or **executing-plans** - Activates with plan. Dispatches fresh subagent per task with two-stage review (spec compliance, then code quality), or executes in batches with human checkpoints.
-
-5. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
-
-6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
-
-7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
-
-**The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
-
-## What's Inside
-
-### Skills Library
-
-**Testing**
-- **test-driven-development** - RED-GREEN-REFACTOR cycle (includes testing anti-patterns reference)
-
-**Debugging**
-- **systematic-debugging** - 4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)
-- **verification-before-completion** - Ensure it's actually fixed
-
-**Collaboration** 
-- **brainstorming** - Socratic design refinement
-- **writing-plans** - Detailed implementation plans
-- **executing-plans** - Batch execution with checkpoints
-- **dispatching-parallel-agents** - Concurrent subagent workflows
-- **requesting-code-review** - Pre-review checklist
-- **receiving-code-review** - Responding to feedback
-- **using-git-worktrees** - Parallel development branches
-- **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
-
-**Meta**
-- **writing-skills** - Create new skills following best practices (includes testing methodology)
-- **using-superpowers** - Introduction to the skills system
-
-## Philosophy
-
-- **Test-Driven Development** - Write tests first, always
-- **Systematic over ad-hoc** - Process over guessing
-- **Complexity reduction** - Simplicity as primary goal
-- **Evidence over claims** - Verify before declaring success
-
-Read [the original release announcement](https://blog.fsck.com/2025/10/09/superpowers/).
-
-## Contributing
-
-The general contribution process for Superpowers is below. Keep in mind that we don't generally accept contributions of new skills and that any updates to skills must work across all of the coding agents we support.
-
-1. Fork the repository
-2. Switch to the 'dev' branch
-3. Create a branch for your work
-4. Follow the `writing-skills` skill for creating and testing new and modified skills
-5. Submit a PR, being sure to fill in the pull request template.
-
-Skill-behavior tests use the drill eval harness from [superpowers-evals](https://github.com/prime-radiant-inc/superpowers-evals/), cloned into `evals/` — see `evals/README.md` for setup. Plugin-infrastructure tests live at `tests/` and run via the relevant `run-*.sh` or `npm test`.
-
-See `skills/writing-skills/SKILL.md` for the complete guide.
-
-## Updating
-
-Superpowers updates are somewhat coding-agent dependent, but are often automatic.
-
-## License
-
-MIT License - see LICENSE file for details
-
-## Visual companion telemetry
-
-Because skills and plugins don't provide any feedback to creators, we have no idea how many of you are using Superpowers. By default, the Prime Radiant logo on brainstorming's optional visual companion feature is loaded from our website. It includes the version of Superpowers in use. It does not include any details about your project, prompt, or coding agent. We don't see your clicks or anything about what you're building. This helps us have a rough idea of how many folks are using Superpowers and which version of Superpowers they're using. It's 100% optional. To disable this, set the environment variable `SUPERPOWERS_DISABLE_TELEMETRY` to any true value. Superpowers also honors Claude Code's `DISABLE_TELEMETRY` and `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` opt-outs.
-
-## Community
-
-Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of the folks at [Prime Radiant](https://primeradiant.com).
-
-- **Discord**: [Join us](https://discord.gg/35wsABTejz) for community support, questions, and sharing what you're building with Superpowers
-- **Issues**: https://github.com/obra/superpowers/issues
-- **Release announcements**: [Sign up](https://primeradiant.com/superpowers/) to get notified about new versions
+Superpowers was created by Jesse Vincent and the contributors to
+[`obra/superpowers`](https://github.com/obra/superpowers). Superpowers Lite
+preserves that foundation while maintaining its lightweight behavior as an
+independent project.
