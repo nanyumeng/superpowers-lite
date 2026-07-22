@@ -1,213 +1,162 @@
 # Superpowers Lite
 
-> [Superpowers](https://github.com/obra/superpowers) 的非官方轻量衍生版本，
+> [Superpowers](https://github.com/obra/superpowers) 的轻量 skills 覆盖包，
 > 面向 GPT-5.6、Claude Fable 5 等新一代强模型。
 
 [English](README.md)
 
-Superpowers Lite 保留 Superpowers 的项目文档结构、技能名称和开发主线，
-同时删减新模型通常不再需要的重复约束。它主要服务于已经使用 Superpowers
-开发的项目：无需重写 specs、plans 或项目级 agent 规则，即可降低提示词和
-编排负担。
+Superpowers Lite 保留原版熟悉的开发流程、skill 名称和项目文件架构，同时删减重复、
+过度规定的旧模型指令。已有项目无需重命名 skills、specs 或 plans。正常安装
+Superpowers 后，让你的编码代理备份并用本仓库的完整 `skills/` 覆盖原来的
+`skills/` 即可。
 
-本项目由 [@nanyumeng](https://github.com/nanyumeng) 独立维护，不是官方
-Superpowers 版本，也未获得 Superpowers、OpenAI 或 Anthropic 的背书。
+这是由社区独立维护的非官方衍生项目，未获得 Superpowers、OpenAI 或 Anthropic
+的认可或背书。
 
 ## 为什么需要 Lite？
 
-Superpowers 建立了从需求到已验证代码的一套可靠主线。它的强约束也有相当一部分
-是为较早或稳定性较弱的模型设计的。根据我们在 GPT-5.6 和 Claude Fable 5 上的
-实际使用经验，如果所有任务继续无差别套用同一套重流程，可能出现反效果：
+Superpowers 建立了从想法到已验证代码的一条可靠开发主线。但其中一部分强规则是为
+较早或可靠性较弱的模型设计的。对于新模型，如果每个任务都套用最重流程，可能产生
+重复规划、代理分发、多轮评审和上下文消耗，却没有改善最终结果。
 
-- 小改动被展开成不必要的规格、代理分发和多轮评审；
-- 重复指令持续占用上下文，并与项目自身需求竞争注意力；
-- 过度编排限制模型直接利用上下文做判断的能力；
-- 做得更多、token 更多，并不必然意味着结果更好。
+Superpowers Lite 让流程强度与任务规模和风险相匹配：
 
-Lite 不是取消工程纪律，而是让纪律与任务的模糊度和风险相匹配：小而明确的改动
-直接实现、测试和验证；新功能或模糊需求仍先设计和规划；生产行为变更仍要求测试，
-完成声明仍必须有最新验证证据。
+- 小而明确的修改可以直接实现并验证；
+- 新功能或范围模糊的需求仍然先进行 brainstorming 并形成 spec；
+- 多步骤实现仍然编写执行计划；
+- 生产行为变更仍然执行测试驱动开发；
+- 声明完成前仍然必须运行最新验证；
+- 只有复杂度或风险确有需要时，才使用子代理和系统化调试。
 
-## Superpowers 与 Superpowers Lite 的核心对比
+这样可以减少围绕模型的额外编排，把更多注意力留给真实项目本身。
 
-| 维度 | 原版 Superpowers | Superpowers Lite |
-|---|---|---|
-| 开发主线 | 头脑风暴 → 规格 → 计划 → 执行 → 验证 → 收尾 | 完整保留 |
-| 既有文档目录 | `docs/superpowers/specs/`、`docs/superpowers/plans/` | 完整保留 |
-| 技能引用 | `superpowers:*` | 为兼容既有项目而保留 |
-| 小而明确的改动 | 可能触发多项工作流技能 | 允许直接 TDD 和验证 |
-| 新功能或模糊需求 | 先设计、再计划 | 仍然先设计、再计划 |
-| 默认执行方式 | 突出子代理驱动开发 | 默认单代理；只有任务独立、高风险或用户明确要求时才委派 |
-| 评审循环 | 强调多阶段评审纪律 | 根据风险和改动规模选择，并设置明确边界 |
-| 调试流程 | 强制性较强的系统化调试 | 用于复杂、重复或首次修复失败的问题 |
-| 安全与完成声明 | 对破坏性操作和完成声明设防 | 保留；安全和验证不是可选项 |
-| 当前基线核心技能文本 | 3,322 行 | 1,053 行，减少 68.3% |
+## 按照新模型的官方建议简化
 
-68.3% 只代表项目随附的技能文本规模减少，**不等于**每个任务都能节约
-68.3% token。
+Lite 的简化方向参考了当前模型厂商的官方提示词建议：
 
-## 同一真实项目中的初步观察
-
-本项目最初来自一个持续进行的权限系统开发任务。我们在同一条 Codex 历史对话中，
-以本机从原版 Superpowers 切换到 Lite 的时间为界，对两个已完成阶段进行了分段。
-
-| 阶段 | 已完成工作回合 | Processed tokens* | 项目中的实际结果 |
-|---|---|---:|---|
-| 原版 Superpowers | 权限主实现 | 57,632,709 | 用时约 75 分钟；后续人工验收发现既有生产能力被遗漏，并重写了不必要的 UI，需要返工 |
-| Superpowers Lite | 权限 E2E 测试集重构 | 12,750,549 | 用时约 17.7 分钟；将 536 条设备矩阵项收敛为 5 条主流程 Gate，首轮测试后准确判断唯一失败来自过期 fixture，而非产品缺陷 |
-
-\* Processed tokens 为 Codex 报告的输入加输出，包含缓存输入。它表示模型处理量，
-不是 API 账单金额。
-
-两个回合属于同一项目和同一历史对话，但具体工作范围并不相同，因此原始数值
-77.9% 的差异**不能当作严格 A/B 性能结论**。其中一个修复回合还跨越了安装
-切换时间，已从归因中排除。结合切换后的连续工作，维护者当前的实际判断是：
-Lite 至少节约了约 **30% token**，同时首轮结果更聚焦、对问题边界的判断更准确。
-这是待验证的项目观察，不是已经完成的通用基准；后续会用重复、同题测试更新或
-修正该数字。
-
-我们还公开了一组独立的
-[GPT-5.6 初步微型对比](docs/benchmarks/2026-07-22-gpt-5.6-sol-comparison.md)：
-原版和 Lite 均通过 3/3 功能与范围检查；Lite 在这个小样本中减少 2.8%
-processed tokens、减少 22.2% 非缓存输入，但没有证明准确率提升。这个结果与真实
-长任务观察并不完全相同，我们仍选择公开，因为 Lite 应由可复现证据评价，而不是
-只展示最有利的一次会话。
-
-## 为什么现在重新审视旧提示词？
-
-Lite 的方向与当前模型厂商的官方建议一致，但两家厂商都没有评测或认可本项目：
-
-- [OpenAI GPT-5.6 提示词最佳实践](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6)
-  建议使用更精简的提示词，删除重复指令和不必要的示例，并用有代表性的同一组任务
-  验证修改；同时建议一条指令只陈述一次，并保持自治策略紧凑。
+- [OpenAI GPT-5.6 提示词指南](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6)
+  建议保持提示词精简，删除重复指令和不必要示例，并使用有代表性的任务验证修改。
 - [Anthropic Claude Fable 5 提示指南](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5)
-  建议重新审视为旧模型编写的 prompts 和 skills，并指出过度规定的旧指令可能降低
-  新模型的输出质量。
+  建议重新审视为旧模型编写的 prompts 和 skills，因为过度规定的旧指令可能降低
+  新模型表现。
 
-这些文档支持的是“重新评估”，不是“规则越少越好”。Lite 仍保留安全、正确性、
-用户授权和完成前验证所需的边界。
+两家厂商均未评测或认可本项目。“更短”也不必然“更好”，因此 Lite 仍保留保证
+正确性、安全性、用户控制、TDD 和完成前验证所需的规则。
 
-## 保留的开发流程
+## 保持原有规范与文件架构
 
-熟悉的 Superpowers 结构保持不变：
+Lite 保留已有 Superpowers 项目依赖的关键结构：
 
-1. 新功能或范围模糊时先进行 **brainstorming**。
-2. 将确认后的规格保存到 `docs/superpowers/specs/`。
-3. 多步骤实现使用 **writing-plans**，计划保存到
-   `docs/superpowers/plans/`。
-4. 默认单代理 **executing-plans**；只有隔离和并行确有收益时才使用子代理。
-5. 生产行为变更执行 **test-driven-development**。
-6. 声明完成前运行最新的 **verification**。
-7. 根据风险进行评审和分支收尾。
+| 维度 | 保留内容 |
+|---|---|
+| Skill 名称 | 既有 `superpowers:*` 引用继续有效 |
+| 开发主线 | brainstorming → spec → plan → execute → verify → finish |
+| 规格目录 | `docs/superpowers/specs/` |
+| 计划目录 | `docs/superpowers/plans/` |
+| 工程纪律 | TDD、调试、评审、验证和安全分支收尾 |
+| 项目指令 | 既有 `AGENTS.md`、`CLAUDE.md` 引用无需迁移 |
 
-文档、配置或单文件等小而明确的修改，可以直接进入实现和验证，不强制创建设计文档。
+Lite 只减轻塑造代理行为的 skill 指令，不会在安装时修改你的业务代码或已有
+Superpowers 文档。
 
-## 谁适合使用 Lite？
+## 实际使用效果
 
-以下情况适合尝试 Lite：
+维护者在真实项目中从原版 Superpowers 切换到 Lite 后，持续进行的同类工作观察到
+**30%+ token 节省**、更快的完成速度，以及更聚焦、过度开发更少的首轮结果。
+随项目发布的核心 skill 指令文本也比原版基线大幅减少。
 
-- 仓库已经引用 `superpowers:*` 技能，或已经采用 Superpowers 的 specs/plans
-  目录结构；
-- 使用新一代强模型，并已观察到重复规划、评审或代理委派增加成本但没有改善结果；
-- 希望保留 TDD、验证和安全边界，同时给模型更多基于上下文直接判断的空间。
-
-如果你需要最大程度的流程强制、依赖原版精确的多代理评审行为，或者尚未遇到 Lite
-针对的开销问题，建议继续使用原版 Superpowers。高风险项目即使使用 Lite，也应采用
-更保守的项目规则。
+30%+ 是真实项目中的实际观察，不是对所有仓库和任务的保证。具体收益会受到任务
+复杂度、模型、harness、项目自身指令，以及原流程触发额外规划、代理分发和评审的
+频率影响。
 
 ## 安装
 
-首个源码版本为 `v6.1.1-lite.1`，发布在
-[`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite)：
+Superpowers Lite 是 skills 覆盖包，不是独立的 harness 插件。请保留一个可以正常
+工作的 Superpowers 安装，由它提供 skill discovery、启动加载和工具适配；不要同时
+启用第二套同名 skills。
 
-### 让编码代理帮你安装
+最简单的安装方式，是把下面提示词交给 Codex、Claude Code、Cursor 或其他能够检查
+自身环境的编码代理。
 
-推荐的迁移方式是把一段安装提示词直接交给 Codex、Claude Code、Cursor 或其他
-编码代理。代理会识别自己的 harness，为已有的原版 v6.1.1 `skills/` 创建备份，
-用固定版本的完整 Lite `skills/` 替换它，完成验证，并报告准确的回滚命令：
+### 将这段提示词复制给编码代理
 
-**[复制交给编码代理的安装提示词](docs/INSTALL_WITH_AGENT.zh-CN.md)**
+```text
+请在这台机器上安装或更新 Superpowers Lite，并实际完成安装，不要只解释步骤。
 
-这特别适合已经使用 Superpowers 的用户，因为原有 harness 适配器可以继续使用。
-不要只挑选少数 `SKILL.md` 覆盖：Lite 修改了 14 个工作流 skills，部分替换可能混合
-互相矛盾的新旧规则。原版插件后续更新可能覆盖原位迁移，因此请保存代理报告的备份
-路径。
+来源：https://github.com/nanyumeng/superpowers-lite
 
-### 手动克隆源码
+目标：保留当前生效的 Superpowers harness 适配器，为它的完整 `skills/` 创建可恢复
+Backup，然后用本仓库的完整 `skills/` 替换原目录。
 
-```bash
-git clone https://github.com/nanyumeng/superpowers-lite.git
-cd superpowers-lite
-git checkout v6.1.1-lite.1
+规则：
+
+1. 识别当前 harness 和操作系统。使用 harness 的插件元数据、插件管理器和它自己
+   管理的目录，定位唯一正在生效的 Superpowers 安装；不要无边界搜索整个用户目录。
+2. 如果尚未安装 Superpowers，先使用当前 harness 支持的原生方式安装
+   https://github.com/obra/superpowers 。不得通过修改全局 AGENTS.md、CLAUDE.md、
+   shell profile 或其他无关个人配置来伪装成已安装。
+3. 找到准确生效的 `skills/` 目录，并在可能时识别当前 Superpowers 版本。如果存在
+   多个生效安装或路径不确定，修改任何内容前必须停下询问我。
+4. 将 https://github.com/nanyumeng/superpowers-lite 克隆或下载到临时目录，验证
+   `skills/using-superpowers/SKILL.md` 和所有顶层 skill 目录完整存在。
+5. 递归比较来源和当前 skills；如果已经完全一致，报告 Superpowers Lite 已是最新，
+   不执行任何修改。
+6. 替换前列出准确的生效路径和计划使用的 Backup 路径。本提示词只授权你替换这一个
+   能够唯一确认的 `skills/` 目录。
+7. 将当前完整 `skills/` 移动为唯一的同级 Backup，名称包含检测到的版本或
+   `unknown`，并包含 UTC 时间戳。不得覆盖已有 Backup，不得混合新旧 skill 树，
+   不得使用不可恢复删除。
+8. 将 Superpowers Lite 的完整 `skills/` 复制到原来的生效位置。保留现有插件的
+   manifest、hooks、loader、extension、权限和 `skills/` 以外的全部文件。
+9. 递归验证安装后的 skills 与下载的 superpowers-lite skills 完全一致；验证 Backup
+   中仍有 `using-superpowers/SKILL.md`；确认只有一个同名 skill 来源正在生效。
+10. 报告安装路径、检测到的原版本、Backup 路径、来源 commit、验证结果、是否需要
+    重启或新建会话，以及准确的 Rollback 命令。不要执行 Rollback。
+
+没有最新验证不得声称成功。不要修改任何业务项目，也不要修改项目中的
+`docs/superpowers/specs/` 和 `docs/superpowers/plans/` 文件。
 ```
 
-目前已提供 [OpenCode](docs/README.opencode.md) 和
-[Kimi Code](docs/README.kimi.md) 的源码安装说明，不宣称已经进入官方 marketplace。
-Codex、Claude Code 和 Cursor 的源码安装流程会在各自端到端发布验证后补充。
+安装后重启 harness 或创建新会话。因为 Lite 有意继续使用已经安装的适配器，界面中
+可能仍显示 “Superpowers”。如果原版插件后续更新，请重新运行上述提示词，因为更新
+可能覆盖已经替换的 skills。
 
-请勿在同一个 harness 中同时启用原版 Superpowers 和 Superpowers Lite。为了兼容
-既有项目，两者有意使用相同的 `superpowers:*` 技能命名空间；同时安装会导致技能
-解析来源不明确。
+### 快速验证
 
-## 兼容性状态
+在临时测试仓库中新建干净会话并输入：
 
-Lite 保留上游目录结构和 harness 适配器，但支持级别只按验证证据声明：
+```text
+Let's make a React todo list.
+```
 
-| Harness | 发布前状态 |
-|---|---|
-| Codex App / CLI | 核心 package、manifest、同步及 bootstrap 测试已通过；marketplace 发布待完成 |
-| Claude Code / Cursor | 保留适配器；正式发布安装验证待完成 |
-| OpenCode / Kimi Code | 现有加载器与 manifest 测试通过；端到端发布验证待完成 |
-| Pi / Antigravity | Experimental；已知工具映射缺口仍在检查 |
+正常情况下，代理应在写代码前选择 `brainstorming`。对于小而明确的文档修正，Lite
+则应直接完成修改和验证，而不是强制创建完整设计和计划。
 
-## 与上游 Superpowers 的关系
+### Rollback 回滚
 
-Superpowers Lite 基于
-[`obra/superpowers`](https://github.com/obra/superpowers) v6.1.1、提交
-`d884ae0` 开发，完整保留原 MIT 许可证和归属信息。
+请保存安装时报告的 Backup 路径。需要恢复时，将下面提示词交给代理：
 
-Lite 的动机与上游关于 token 预算、代理分发阈值和无边界返工循环的部分讨论有关，
-包括 [#1152](https://github.com/obra/superpowers/issues/1152)、
-[#1194](https://github.com/obra/superpowers/issues/1194)、
-[#1917](https://github.com/obra/superpowers/issues/1917) 和
-[#1988](https://github.com/obra/superpowers/issues/1988)。这些报告用于说明问题空间，
-不代表上游认可 Lite 的结论或实现。
+```text
+请使用下面这个准确的 Backup 路径 Rollback Superpowers Lite：
+<粘贴_BACKUP_路径>
 
-大范围 skill 策略变化如果没有充分评测证据，并不适合直接提交上游 core，因此 Lite
-作为独立分支维护。后续评测如果发现小而通用、与 fork 无关的问题，我们会先搜索
-已有 issue 和 PR，再按上游贡献规范提交聚焦修复。不会用上游 issue 推广本项目。
+找到当前生效的 Superpowers `skills/` 目录，验证 Backup 中存在
+`using-superpowers/SKILL.md`，列出两个准确路径，然后使用可恢复的移动操作恢复
+Backup。不要删除任何一棵目录树，不要修改项目文件。验证恢复后的 skills，并告诉我
+需要重启 harness 还是创建新会话。
+```
 
-## 后续评测计划
+## 仓库范围
 
-在发布稳定的效率结论前，我们会公开原版与 Lite 的同题重复对比，覆盖文档修改、
-小型 bug、跨文件功能、复杂调试和真正需要并行的工作，并记录：
+本项目真正分发的内容只有 [`skills/`](skills/) 目录。用户已有的 Superpowers 安装
+已经提供平台 manifest、loader、hooks 和工具适配，因此本仓库不再重复携带这些模块。
 
-- 模型、reasoning effort、harness 版本和精确 skill revision；
-- 缓存输入、非缓存输入、输出、processed tokens、耗时和子代理数量；
-- 功能正确性、范围遵守、重试次数和人工验收结果；
-- 多次重复结果，而不是挑选最好的一次。
+欢迎在 [`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite)
+提交 Issue 和 Pull Request。
 
-Claude Fable 5 的对照评测目前尚未执行。
+## 许可证与归属
 
-## Issues 与 Pull Requests
+项目采用 MIT License，详见 [LICENSE](LICENSE) 和 [NOTICE](NOTICE)。
 
-公开仓库已开放外部 Issues 和 Pull Requests。问题报告应包含模型与
-harness、Lite 精确版本、真实复现、预期与实际行为；涉及效率时必须说明 token
-统计口径。Skill 行为变更应提交前后同题证据，每个 PR 只解决一个问题。
-
-欢迎 AI 辅助贡献，但贡献者必须披露使用的模型、harness 和相关工具，并亲自审阅
-完整 diff。
-
-## 隐私与遥测
-
-公开版本将使用干净历史，不包含本机会话 transcript、用户目录、凭据或私密研究
-记录。发布前还会审计继承的品牌内容和运行时联网请求；如果保留任何可选请求，
-README 会说明其用途和关闭方法。未披露遥测不能进入正式版本。
-
-## 许可证与致谢
-
-本项目采用 MIT License，详见 [LICENSE](LICENSE)。
-
-Superpowers 由 Jesse Vincent 及
-[`obra/superpowers`](https://github.com/obra/superpowers) 的贡献者创建。
-Superpowers Lite 保留这一基础，并作为独立项目维护轻量化行为。
+Superpowers 由 Jesse Vincent 及其贡献者创建。Superpowers Lite 保留这一基础，并由
+社区独立维护轻量化 skills。
