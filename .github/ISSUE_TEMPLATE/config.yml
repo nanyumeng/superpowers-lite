@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Questions & Help
-    url: https://github.com/nanyumeng/superpowers-lite/blob/main/SUPPORT.md
-    about: Check whether the issue belongs to Lite, upstream Superpowers, or the coding harness.
-  - name: Report a vulnerability privately
-    url: https://github.com/nanyumeng/superpowers-lite/security/advisories/new
-    about: Do not disclose suspected vulnerabilities in a public issue.
