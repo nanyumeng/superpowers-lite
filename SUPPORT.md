@@ -41,9 +41,6 @@ the harness's own tools.
 Security vulnerabilities must use the private process in
 [SECURITY.md](SECURITY.md), never a public issue.
 
-During pre-release, a dedicated confidential Code of Conduct contact has not
-yet been configured. Do not publish sensitive conduct details. Use the
-maintainer's [GitHub profile](https://github.com/nanyumeng) to request a private
-contact channel without describing the incident publicly. A dedicated private
-address must be documented before the repository is announced as
-community-ready.
+Code of Conduct reports must be sent privately to
+[nanyvmeng1021@gmail.com](mailto:nanyvmeng1021@gmail.com). Do not publish
+sensitive conduct details in an issue or discussion.

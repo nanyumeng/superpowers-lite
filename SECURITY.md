@@ -19,10 +19,11 @@ https://github.com/nanyumeng/superpowers-lite/security/advisories/new
 Include the affected revision, harness, impact, reproduction steps, and any
 suggested mitigation. Remove unrelated secrets and personal data from logs.
 
-Private Vulnerability Reporting must be enabled in the repository settings
-before the first public release. If the **Report a vulnerability** action is not
-available, open a public issue containing no sensitive details and ask the
-maintainer for a private security contact.
+Private Vulnerability Reporting is the preferred channel. If the
+**Report a vulnerability** action is unavailable, email
+[nanyvmeng1021@gmail.com](mailto:nanyvmeng1021@gmail.com) with the subject
+`[SECURITY] Superpowers Lite`. Do not open a public issue containing sensitive
+details.
 
 ## Scope
 

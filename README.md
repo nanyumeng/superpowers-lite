@@ -132,13 +132,21 @@ depend on its exact multi-agent review behavior, or have not observed the
 overhead Lite is designed to address. For high-risk work, Lite should still be
 configured conservatively.
 
-## Installation status
+## Installation
 
-The first public release, `v6.1.1-lite.1`, is being prepared. The repository
-will be published at
+The first source release is `v6.1.1-lite.1` at
 [`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite).
-Release-specific installation commands will be added only after package names,
-manifests, bootstrap behavior, upgrade, and rollback have been verified.
+
+```bash
+git clone https://github.com/nanyumeng/superpowers-lite.git
+cd superpowers-lite
+git checkout v6.1.1-lite.1
+```
+
+Harness-specific source installation is currently documented for
+[OpenCode](docs/README.opencode.md) and [Kimi Code](docs/README.kimi.md).
+Marketplace availability is not claimed. Codex, Claude Code, and Cursor source
+installation flows will be documented after their end-to-end release checks.
 
 Do not enable upstream Superpowers and Superpowers Lite in the same harness.
 They intentionally use the same `superpowers:*` skill namespace for existing
@@ -152,7 +160,7 @@ reported by evidence rather than by file presence:
 
 | Harness | Pre-release status |
 |---|---|
-| Codex App / CLI | Core package, manifest, sync, and bootstrap tests pass; public install flow pending |
+| Codex App / CLI | Core package, manifest, sync, and bootstrap tests pass; marketplace publication pending |
 | Claude Code / Cursor | Adapter retained; release install verification pending |
 | OpenCode / Kimi Code | Existing loader and manifest tests pass; end-to-end release verification pending |
 | Pi / Antigravity | Experimental; known tool-mapping gaps remain under review |
@@ -192,7 +200,7 @@ Claude Fable 5 evaluation has not yet been run.
 
 ## Issues and pull requests
 
-External issues and pull requests will open with the first public release.
+External issues and pull requests are open in the public repository.
 Reports should include the model and harness, exact Lite revision, a real
 reproduction, expected and actual behavior, and a clear token-counting method
 for efficiency claims. Skill behavior changes should include matched before
@@ -203,7 +211,7 @@ harness, and relevant tools and has personally reviewed the complete diff.
 
 ## Privacy and telemetry
 
-The public release is being prepared from a clean history that excludes local
+The public release uses a clean history that excludes local
 session transcripts, machine paths, credentials, and private research notes.
 Runtime network requests and inherited branding are also being audited before
 release. The README will document any remaining optional request and its opt-out;

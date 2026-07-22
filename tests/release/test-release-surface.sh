@@ -35,6 +35,11 @@ for relative_path in required:
     if not path.is_file() or not path.read_text(encoding="utf-8").strip():
         raise AssertionError(f"required release file is missing or empty: {relative_path}")
 
+contact_email = "nanyvmeng1021@gmail.com"
+for relative_path in ["CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md"]:
+    if contact_email not in (root / relative_path).read_text(encoding="utf-8"):
+        raise AssertionError(f"{relative_path}: private contact email is missing")
+
 if (root / ".github/FUNDING.yml").exists():
     raise AssertionError("Lite must not inherit upstream GitHub sponsorship configuration")
 

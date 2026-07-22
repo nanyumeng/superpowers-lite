@@ -5,7 +5,7 @@ All notable Superpowers Lite changes will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions follow Semantic Versioning with a `lite` prerelease identifier.
 
-## [6.1.1-lite.1] - Unreleased
+## [6.1.1-lite.1] - 2026-07-22
 
 ### Added
 

@@ -115,12 +115,20 @@ Lite 的方向与当前模型厂商的官方建议一致，但两家厂商都没
 针对的开销问题，建议继续使用原版 Superpowers。高风险项目即使使用 Lite，也应采用
 更保守的项目规则。
 
-## 安装状态
+## 安装
 
-首个公开版本 `v6.1.1-lite.1` 正在准备中，拟发布到
-[`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite)。
-只有在包名、manifests、启动注入、升级和回退都验证完成后，README 才会提供正式
-安装命令。
+首个源码版本为 `v6.1.1-lite.1`，发布在
+[`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite)：
+
+```bash
+git clone https://github.com/nanyumeng/superpowers-lite.git
+cd superpowers-lite
+git checkout v6.1.1-lite.1
+```
+
+目前已提供 [OpenCode](docs/README.opencode.md) 和
+[Kimi Code](docs/README.kimi.md) 的源码安装说明，不宣称已经进入官方 marketplace。
+Codex、Claude Code 和 Cursor 的源码安装流程会在各自端到端发布验证后补充。
 
 请勿在同一个 harness 中同时启用原版 Superpowers 和 Superpowers Lite。为了兼容
 既有项目，两者有意使用相同的 `superpowers:*` 技能命名空间；同时安装会导致技能
@@ -132,7 +140,7 @@ Lite 保留上游目录结构和 harness 适配器，但支持级别只按验证
 
 | Harness | 发布前状态 |
 |---|---|
-| Codex App / CLI | 核心 package、manifest、同步及 bootstrap 测试已通过；公开安装流程待验证 |
+| Codex App / CLI | 核心 package、manifest、同步及 bootstrap 测试已通过；marketplace 发布待完成 |
 | Claude Code / Cursor | 保留适配器；正式发布安装验证待完成 |
 | OpenCode / Kimi Code | 现有加载器与 manifest 测试通过；端到端发布验证待完成 |
 | Pi / Antigravity | Experimental；已知工具映射缺口仍在检查 |
@@ -168,7 +176,7 @@ Claude Fable 5 的对照评测目前尚未执行。
 
 ## Issues 与 Pull Requests
 
-首个公开版本发布时会开放外部 Issues 和 Pull Requests。问题报告应包含模型与
+公开仓库已开放外部 Issues 和 Pull Requests。问题报告应包含模型与
 harness、Lite 精确版本、真实复现、预期与实际行为；涉及效率时必须说明 token
 统计口径。Skill 行为变更应提交前后同题证据，每个 PR 只解决一个问题。
 
