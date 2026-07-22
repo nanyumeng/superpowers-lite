@@ -1,4 +1,4 @@
-# Installing Superpowers for OpenCode
+# Installing Superpowers Lite for OpenCode
 
 ## Prerequisites
 
@@ -6,11 +6,12 @@
 
 ## Installation
 
-Add superpowers to the `plugin` array in your `opencode.json` (global or project-level):
+After the first public release, add Superpowers Lite to the `plugin` array in
+your `opencode.json` (global or project-level):
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+  "plugin": ["superpowers-lite@git+https://github.com/nanyumeng/superpowers-lite.git"]
 }
 ```
 
@@ -20,7 +21,8 @@ registers all skills.
 Verify by asking: "Tell me about your superpowers"
 
 OpenCode uses its own plugin install. If you also use Claude Code, Codex, or
-another harness, install Superpowers separately for each one.
+another harness, install Superpowers Lite separately for each one. Remove or
+disable official Superpowers first; both projects expose the same skill names.
 
 ## Migrating from the old symlink-based install
 
@@ -50,16 +52,16 @@ use skill tool to load brainstorming
 
 ## Updating
 
-OpenCode installs Superpowers through a git-backed package spec. Some OpenCode
+OpenCode installs Superpowers Lite through a git-backed package spec. Some OpenCode
 and Bun versions pin that resolved git dependency in a lockfile or cache, so a
-restart may not pick up the newest Superpowers commit. If updates do not appear,
+restart may not pick up the newest Lite commit. If updates do not appear,
 clear OpenCode's package cache or reinstall the plugin.
 
 To pin a specific version:
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git#v5.0.3"]
+  "plugin": ["superpowers-lite@git+https://github.com/nanyumeng/superpowers-lite.git#v6.1.1-lite.1"]
 }
 ```
 
@@ -80,14 +82,14 @@ the plugin, try installing with system npm and pointing OpenCode at the local
 package:
 
 ```powershell
-npm install superpowers@git+https://github.com/obra/superpowers.git --prefix "$HOME\.config\opencode"
+npm install superpowers-lite@git+https://github.com/nanyumeng/superpowers-lite.git --prefix "$HOME\.config\opencode"
 ```
 
 Then use the installed package path in `opencode.json`:
 
 ```json
 {
-  "plugin": ["~/.config/opencode/node_modules/superpowers"]
+  "plugin": ["~/.config/opencode/node_modules/superpowers-lite"]
 }
 ```
 
@@ -111,5 +113,5 @@ Skills speak in actions ("create a todo", "dispatch a subagent", "read a file").
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Full documentation: https://github.com/obra/superpowers/blob/main/docs/README.opencode.md
+- Report issues: https://github.com/nanyumeng/superpowers-lite/issues
+- Full documentation: https://github.com/nanyumeng/superpowers-lite/blob/main/docs/README.opencode.md

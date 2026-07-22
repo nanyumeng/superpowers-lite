@@ -1,47 +1,41 @@
 ---
 name: Feature Request
-about: Propose a change or addition to Superpowers
+about: Propose a focused, general-purpose improvement to Superpowers Lite
 labels: enhancement
 ---
 
-<!--
-BEFORE FILING: Search open AND closed issues. Many features have been
-requested before — some were implemented differently, some are in
-progress, and some were intentionally declined.
--->
+- [ ] I searched open and closed issues for prior proposals
 
-- [ ] I searched existing issues and this has not been proposed before
+## Experienced problem
 
-## What problem does this solve?
-<!-- Describe the problem from your own experience. What were you doing,
-     what went wrong or was missing, and why did it matter?
+Describe the real task or session where the current behavior was insufficient.
+Do not submit a speculative feature without an observed problem.
 
-     "It would be cool if..." is not a problem statement. -->
+## Proposed behavior
 
-## Proposed solution
-<!-- What specifically do you want to happen? Be concrete. -->
+Explain the smallest user-visible change that would solve the problem.
 
-## What alternatives did you consider?
-<!-- What other approaches could solve the same problem? Why is your
-     proposal better? -->
+## Alternatives considered
 
-## Is this appropriate for core Superpowers?
-<!-- Would this benefit someone working on a completely different kind
-     of project? If this is specific to your domain, workflow, or a
-     third-party tool, it may belong as its own plugin instead. -->
+Include project-level rules, a standalone skill or plugin, upstream
+Superpowers, and no change when relevant.
 
-## Environment (required)
-<!-- Required. We assume an agent wrote this request — tell us which one and
-     where it ran. We weigh proposals reasoned from documentation differently
-     than ones grounded in a real session where the problem actually came up. -->
+## Why this belongs in Lite core
+
+Explain why the change benefits users across unrelated projects and how it
+supports Lite's compatibility and risk-proportional workflow.
+
+## Environment
 
 | Field | Value |
-|-------|-------|
-| Superpowers version | |
-| Harness (Claude Code, Cursor, etc.) | |
-| Harness version | |
-| Your model + version | |
-| All plugins installed | |
+|---|---|
+| Superpowers Lite revision or release | |
+| Harness and version | |
+| Model and version | |
+| Reasoning effort | |
+| Installed plugins or skills | |
 
-## Context
-<!-- Optional: the workflow where you hit this, links, transcripts. -->
+## Evaluation idea
+
+Describe a matched before/after task and the functional, scope, token, or
+workflow outcome that should improve.

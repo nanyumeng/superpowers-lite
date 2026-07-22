@@ -1,55 +1,48 @@
 ---
 name: Bug Report
-about: Something isn't working as expected
+about: Report reproducible behavior that is broken in Superpowers Lite
 labels: bug
 ---
 
-<!--
-BEFORE FILING: Search open AND closed issues. The Windows SessionStart
-hook alone has been reported 29 times. If your issue already exists,
-add a comment or reaction to the existing one instead.
--->
+- [ ] I searched open and closed issues for duplicates
+- [ ] I removed credentials, private code, personal data, local paths, and unrelated transcript content
 
-- [ ] I searched existing issues and this is not a duplicate
-
-## Environment (required)
-<!-- Required. We assume an agent filed this report — tell us which one and
-     where it ran. We weigh reports by what produced them. -->
+## Environment
 
 | Field | Value |
-|-------|-------|
-| Superpowers version | |
-| Harness (Claude Code, Cursor, etc.) | |
-| Harness version | |
-| Your model + version | |
-| All plugins installed | |
-| OS + shell | |
-
-## Is this a Superpowers issue or a platform issue?
-<!-- Superpowers is a plugin. Some reported "bugs" are actually issues
-     in the underlying platform or model. If you're not sure, try
-     reproducing without Superpowers installed.
-
-     If the problem persists without Superpowers, file the issue with
-     your platform instead. -->
-
-- [ ] I confirmed this issue does not occur without Superpowers installed
+|---|---|
+| Superpowers Lite revision or release | |
+| Harness and version | |
+| Model and version | |
+| Reasoning effort | |
+| Installed plugins or skills | |
+| OS and shell | |
 
 ## What happened?
-<!-- Be specific. "It doesn't work" is not a bug report. -->
+
+Describe the concrete task and failure. Include the smallest repository fixture
+or prompt that reproduces it.
 
 ## Steps to reproduce
+
 1.
 2.
 3.
 
-## Expected behavior
-<!-- What should have happened? -->
+## Expected result
 
-## Actual behavior
-<!-- What happened instead? -->
+## Actual result
 
-## Debug log or conversation transcript
-<!-- A debug log or conversation transcript showing the issue is the
-     single most helpful thing you can include. Without one, we're
-     guessing. Screenshots of error output are also useful. -->
+## Ownership check
+
+- [ ] The issue reproduces with Superpowers Lite enabled
+- [ ] I checked whether it persists without Lite or with upstream Superpowers
+
+Explain the comparison. If it persists without Lite, it may belong to the
+harness or model provider. If it is unchanged from upstream, see
+[SUPPORT.md](../../SUPPORT.md).
+
+## Sanitized evidence
+
+Paste the smallest relevant log, error, screenshot, or transcript excerpt.
+For security-sensitive behavior, stop and use [SECURITY.md](../../SECURITY.md).

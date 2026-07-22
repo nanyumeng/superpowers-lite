@@ -1,34 +1,36 @@
 ---
-name: IDE / Platform Support Request
-about: Request support for a new IDE, editor, or AI coding tool
+name: Harness / Platform Support
+about: Request support for another IDE, CLI, or agent runner
 labels: platform-support
 ---
 
-<!--
-BEFORE FILING: Search existing issues — your IDE may already be
-requested or discussed.
--->
+- [ ] I searched existing issues for this harness or platform
 
-- [ ] I searched existing issues for this IDE/platform
+## Harness or platform
 
-## Which IDE or platform?
-<!-- Name and link -->
+Provide its name, version, and official plugin or extension documentation.
 
-## Does this tool have a plugin or extension system?
-<!-- If yes, link to the docs. If no, explain how third-party
-     integrations typically work with this tool. -->
+## User problem
 
-## Have you tried manual installation?
-<!-- Many tools work with Superpowers through manual setup even without
-     official support. Did you try? What happened? -->
+Describe the real workflow that is blocked and what you already tried.
 
-## Environment (required)
-<!-- Required. We assume an agent wrote this request — tell us which one and
-     where it ran. -->
+## Required integration behavior
+
+A supported integration must load `using-superpowers` at session start. In a
+clean session, the exact prompt below must trigger `brainstorming` before code:
+
+> Let's make a react todo list
+
+## Environment
 
 | Field | Value |
-|-------|-------|
-| Harness you currently use (Claude Code, Cursor, etc.) | |
+|---|---|
+| Superpowers Lite revision or release | |
 | Harness version | |
-| Your model + version | |
-| All plugins installed | |
+| Model and version | |
+| OS and shell | |
+
+## Evidence
+
+Attach a sanitized clean-session transcript if you have attempted an
+integration. Manual skill copying without session bootstrap is not sufficient.
