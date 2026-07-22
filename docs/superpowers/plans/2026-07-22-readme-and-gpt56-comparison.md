@@ -162,7 +162,7 @@ Create the temporary root with `LITE_BENCH_ROOT=$(mktemp -d /private/tmp/superpo
 /Applications/ChatGPT.app/Contents/Resources/codex exec \
   --ephemeral --json --ignore-user-config --ignore-rules \
   --model gpt-5.6-sol -c 'model_reasoning_effort="high"' \
-  --sandbox workspace-write --ask-for-approval never \
+  --sandbox workspace-write -c 'approval_policy="never"' \
   --cd "$LITE_BENCH_ROOT/upstream/docs-typo" \
   'Fix the typo "teh" to "the" in README.md. This is a small documentation-only change. Change nothing else, do not add planning documents, and verify the final diff.'
 ```
