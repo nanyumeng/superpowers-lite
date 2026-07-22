@@ -137,6 +137,24 @@ configured conservatively.
 The first source release is `v6.1.1-lite.1` at
 [`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite).
 
+### Let your coding agent install it
+
+The recommended migration is to copy one installation prompt into Codex,
+Claude Code, Cursor, or another coding agent. The agent detects its harness,
+backs up an existing upstream v6.1.1 `skills/` directory, replaces it with the
+complete pinned Lite `skills/` directory, verifies the result, and reports an
+exact rollback command:
+
+**[Copy the agent installation prompt](docs/INSTALL_WITH_AGENT.md)**
+
+This is especially useful for existing Superpowers users because the current
+harness adapter can stay in place. Do not copy only selected `SKILL.md` files;
+Lite changes 14 workflow skills, and a partial overlay can mix contradictory
+rules. An upstream plugin update may overwrite an in-place migration, so keep
+the backup path reported by the agent.
+
+### Clone the source
+
 ```bash
 git clone https://github.com/nanyumeng/superpowers-lite.git
 cd superpowers-lite

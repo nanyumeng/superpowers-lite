@@ -120,6 +120,21 @@ Lite 的方向与当前模型厂商的官方建议一致，但两家厂商都没
 首个源码版本为 `v6.1.1-lite.1`，发布在
 [`nanyumeng/superpowers-lite`](https://github.com/nanyumeng/superpowers-lite)：
 
+### 让编码代理帮你安装
+
+推荐的迁移方式是把一段安装提示词直接交给 Codex、Claude Code、Cursor 或其他
+编码代理。代理会识别自己的 harness，为已有的原版 v6.1.1 `skills/` 创建备份，
+用固定版本的完整 Lite `skills/` 替换它，完成验证，并报告准确的回滚命令：
+
+**[复制交给编码代理的安装提示词](docs/INSTALL_WITH_AGENT.zh-CN.md)**
+
+这特别适合已经使用 Superpowers 的用户，因为原有 harness 适配器可以继续使用。
+不要只挑选少数 `SKILL.md` 覆盖：Lite 修改了 14 个工作流 skills，部分替换可能混合
+互相矛盾的新旧规则。原版插件后续更新可能覆盖原位迁移，因此请保存代理报告的备份
+路径。
+
+### 手动克隆源码
+
 ```bash
 git clone https://github.com/nanyumeng/superpowers-lite.git
 cd superpowers-lite

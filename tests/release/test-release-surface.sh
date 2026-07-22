@@ -14,6 +14,8 @@ root = Path(sys.argv[1])
 required = [
     "README.md",
     "README.zh-CN.md",
+    "docs/INSTALL_WITH_AGENT.md",
+    "docs/INSTALL_WITH_AGENT.zh-CN.md",
     "NOTICE",
     "CONTRIBUTING.md",
     "SECURITY.md",
@@ -83,6 +85,35 @@ for relative_path in [
         raise AssertionError(f"{relative_path}: install documentation still points to upstream")
     if "github.com/nanyumeng/superpowers-lite" not in text:
         raise AssertionError(f"{relative_path}: Lite repository URL is missing")
+
+agent_install_docs = [
+    "docs/INSTALL_WITH_AGENT.md",
+    "docs/INSTALL_WITH_AGENT.zh-CN.md",
+]
+for relative_path in agent_install_docs:
+    text = (root / relative_path).read_text(encoding="utf-8")
+    for required_text in [
+        "https://github.com/nanyumeng/superpowers-lite",
+        "v6.1.1-lite.1",
+        "skills/using-superpowers/SKILL.md",
+        "Backup",
+        "Rollback",
+    ]:
+        if required_text not in text:
+            raise AssertionError(
+                f"{relative_path}: agent installer requirement is missing: {required_text}"
+            )
+    if "rm -rf" in text:
+        raise AssertionError(f"{relative_path}: installer must not recommend irreversible deletion")
+
+readme_agent_links = {
+    "README.md": "docs/INSTALL_WITH_AGENT.md",
+    "README.zh-CN.md": "docs/INSTALL_WITH_AGENT.zh-CN.md",
+}
+for relative_path, target in readme_agent_links.items():
+    text = (root / relative_path).read_text(encoding="utf-8")
+    if target not in text:
+        raise AssertionError(f"{relative_path}: agent installation guide is not linked")
 
 markdown_files = [
     root / relative_path
