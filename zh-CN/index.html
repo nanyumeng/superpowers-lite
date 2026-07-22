@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Superpowers Lite by nanyumeng — 轻量 skills 覆盖包</title>
+  <meta name="description" content="Superpowers Lite 是 obra/superpowers 的非官方、可回滚 skills 覆盖包：保留原有开发主线，让规划、代理分发、评审和调试与任务风险匹配。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://nanyumeng.github.io/superpowers-lite/zh-CN/">
+  <link rel="alternate" hreflang="en" href="https://nanyumeng.github.io/superpowers-lite/">
+  <link rel="alternate" hreflang="zh-CN" href="https://nanyumeng.github.io/superpowers-lite/zh-CN/">
+  <link rel="stylesheet" href="/superpowers-lite/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header"><nav class="nav-shell" aria-label="主导航"><a class="brand" href="/superpowers-lite/zh-CN/"><span class="brand-mark">SL</span><span>Superpowers Lite</span></a><div class="nav-links"><a href="/superpowers-lite/comparison/">对比</a><a href="/superpowers-lite/evidence/">证据</a><a href="/superpowers-lite/faq/">FAQ</a><a href="/superpowers-lite/">English</a><a class="nav-cta" href="/superpowers-lite/install/">安全安装</a></div></nav></header>
+  <main id="main">
+    <section class="shell hero">
+      <div><p class="eyebrow">非官方衍生项目 · v6.1.1-lite.2</p><h1>框架不动，减掉过重流程。</h1><p class="lede">Superpowers Lite by nanyumeng 是 <a href="https://github.com/obra/superpowers">obra/superpowers</a> 的轻量 skills 覆盖包。它保留从需求到已验证代码的开发主线，同时让规划、代理分发、评审和调试的强度与任务风险相匹配。</p><div class="actions"><a class="button" href="/superpowers-lite/install/">查看安装与回滚</a><a class="button secondary" href="https://github.com/nanyumeng/superpowers-lite/blob/main/README.zh-CN.md">阅读中文 README</a></div></div>
+      <aside class="signal-card" aria-label="Superpowers Lite 流程摘要"><ol><li><span><strong>小而明确？</strong><br>直接实现，然后验证。</span></li><li><span><strong>新功能或范围模糊？</strong><br>先研究、形成规格，再计划。</span></li><li><span><strong>改变生产行为？</strong><br>继续使用测试驱动开发。</span></li><li><span><strong>准备声明完成？</strong><br>必须先运行最新验证。</span></li></ol></aside>
+    </section>
+    <section class="trust-strip"><div class="shell trust-grid"><div class="trust-item"><strong>48 个文件</strong><span>与上游 v6.1.1 基线保持相同的完整 skills 树。</span></div><div class="trust-item"><strong>可回滚</strong><span>只备份并替换一个本机 <code>skills/</code> 目录。</span></div><div class="trust-item"><strong>MIT</strong><span>开源发布，并保留上游作者和许可证归属。</span></div><div class="trust-item"><strong>非官方</strong><span>未获得 Superpowers、OpenAI 或 Anthropic 背书。</span></div></div></section>
+    <section class="section"><div class="shell"><div class="section-intro"><div><p class="eyebrow">改变了什么</p><h2>减少仪式，保留护栏。</h2></div><p>Lite 不重写 Superpowers，也不引入第二套 harness。它只覆盖一个既有安装中的行为型 skills，不修改业务项目、specs、plans 或适配器代码。</p></div><div class="card-grid"><article class="card"><span class="number">01</span><h3>流程与风险匹配</h3><p>小而明确的文档或配置修改可以直接完成；新功能和模糊需求仍需要 brainstorming、规格和计划。</p></article><article class="card"><span class="number">02</span><h3>按需编排</h3><p>子代理、worktree、系统化调试和评审仍然保留，但只在隔离、复杂度或风险确有需要时触发。</p></article><article class="card"><span class="number">03</span><h3>工程纪律不降级</h3><p>生产行为变更仍从失败测试开始；声明完成前仍必须给出本次会话中的最新验证证据。</p></article></div></div></section>
+    <section class="section blue-section"><div class="shell"><div class="section-intro"><div><p class="eyebrow">兼容边界</p><h2>已有项目结构无需迁移。</h2></div><p>Lite 基于 <a href="https://github.com/obra/superpowers/releases/tag/v6.1.1">Superpowers v6.1.1</a>。Skill 名称、<code>docs/superpowers/specs/</code>、<code>docs/superpowers/plans/</code>、TDD 和完成前验证保持兼容。</p></div><p>“兼容”描述的是名称、路径和主流程，不代表每条指令完全相同，也不是对所有第三方 harness 的保证。安装前请阅读英文版的 <a href="/superpowers-lite/comparison/">完整对比</a>。</p></div></section>
+    <section class="section"><div class="shell"><div class="section-intro"><div><p class="eyebrow">证据边界</p><h2>测量、观察和结论分开说。</h2></div><p>14 个核心 <code>SKILL.md</code> 相比上游 v6.1.1 从 3,322 行减少到 1,053 行，减少 68.3%；这是源码体积测量，不是任务 token 或准确率结论。</p></div><div class="data-grid"><article class="data-card"><strong>68.3%</strong><span>核心 skill 指令的行数差异，可通过源码复核。</span></article><article class="data-card"><strong>30%+</strong><span>维护者在持续真实项目中观察到的 token 节省；不是受控基准或普遍保证。</span></article></div><p>更早的三任务方向性微测结果是 processed tokens 少 2.8%、fresh input 少 22.2%，没有证明准确率优势。不同工作阶段的 77.9% 原始差异不作为受控性能结论。详见 <a href="/superpowers-lite/evidence/">Evidence and limitations</a>。</p></div></section>
+    <section class="section"><div class="shell callout warning"><p class="eyebrow">安装前</p><h2>保留一个适配器，也保留准确的退路。</h2><p>先保留可以正常工作的原版 Superpowers 安装，让编码代理通过 harness 元数据找到唯一生效的 <code>skills/</code> 路径。把完整目录移动为带时间戳的 Backup，再复制 Lite 并递归验证。不要删除 Backup。</p><div class="actions"><a class="button" href="/superpowers-lite/install/">打开安装与 Rollback 指南</a><a class="button secondary" href="https://github.com/nanyumeng/superpowers-lite/releases/tag/v6.1.1-lite.2">当前 Release</a></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-grid"><div><a class="brand" href="/superpowers-lite/zh-CN/"><span class="brand-mark">SL</span><span>Superpowers Lite</span></a><p>基于 <a href="https://github.com/obra/superpowers">obra/superpowers</a> v6.1.1 的非官方衍生项目，由 <a href="https://github.com/nanyumeng">nanyumeng</a> 维护和推广；未获得 Superpowers、OpenAI 或 Anthropic 背书。</p></div><div class="footer-links"><strong>使用</strong><a href="/superpowers-lite/install/">安装与回滚</a><a href="/superpowers-lite/comparison/">对比</a><a href="/superpowers-lite/evidence/">证据</a></div><div class="footer-links"><strong>项目</strong><a href="/superpowers-lite/faq/">FAQ</a><a href="https://github.com/nanyumeng/superpowers-lite">GitHub 仓库</a><a href="/superpowers-lite/">English</a></div></div></footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install and roll back Superpowers Lite safely</title>
+  <meta name="description" content="A reversible installation guide for Superpowers Lite: locate one active Superpowers skills directory, create a backup, replace, verify, and retain rollback instructions.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://nanyumeng.github.io/superpowers-lite/install/">
+  <link rel="stylesheet" href="/superpowers-lite/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav-shell" aria-label="Primary navigation"><a class="brand" href="/superpowers-lite/"><span class="brand-mark">SL</span><span>Superpowers Lite</span></a><div class="nav-links"><a href="/superpowers-lite/comparison/">Compare</a><a href="/superpowers-lite/evidence/">Evidence</a><a href="/superpowers-lite/faq/">FAQ</a><a class="nav-cta" href="https://github.com/nanyumeng/superpowers-lite">GitHub</a></div></nav></header>
+  <main id="main" class="shell">
+    <header class="page-hero"><p class="eyebrow">Safe installation</p><h1>Replace one directory. Keep the way back.</h1><p class="lede">Superpowers Lite is a skills overlay, not a standalone harness plugin. The safe path keeps one active upstream adapter, creates a unique backup, replaces the complete skills tree, and verifies both sides.</p></header>
+    <div class="prose-grid">
+      <ol class="toc" aria-label="On this page"><li><a href="#requirements">Requirements</a></li><li><a href="#agent-prompt">Agent prompt</a></li><li><a href="#verify">Verify</a></li><li><a href="#rollback">Rollback</a></li><li><a href="#updates">Updates</a></li></ol>
+      <article class="prose">
+        <section id="requirements"><h2>Before you start</h2><p>You need one working <a href="https://github.com/obra/superpowers">obra/superpowers</a> installation. Lite is an unofficial derivative based on upstream v6.1.1 and relies on that installation's native adapter for skill discovery and harness integration.</p><ul><li>Do not enable two copies of the same <code>superpowers:*</code> skills.</li><li>Do not guess the active installation path. Let the coding agent inspect the harness metadata.</li><li>Do not delete the original skills tree. Move it to a unique, timestamped backup.</li><li>Install a pinned release when reproducibility matters: <a href="https://github.com/nanyumeng/superpowers-lite/releases/tag/v6.1.1-lite.2">v6.1.1-lite.2</a>.</li></ul></section>
+        <section id="agent-prompt"><h2>Give this to your coding agent</h2><p>The prompt asks the agent to complete the operation, surface ambiguous paths instead of guessing, and report an exact rollback command.</p><pre class="code-block">Install or update Superpowers Lite on this machine. Complete the installation; do not only explain the steps.
+
+Source release: https://github.com/nanyumeng/superpowers-lite/releases/tag/v6.1.1-lite.2
+
+1. Find the one active Superpowers installation and its exact skills/ path using this harness's plugin metadata or manager. If Superpowers is absent, install upstream Superpowers through the harness's native method first. If paths are ambiguous, stop and ask me.
+2. Download the release to a temporary directory and validate skills/using-superpowers/SKILL.md. If its complete skills/ tree already matches the active one, report that no update is needed.
+3. Show the active path and a unique timestamped Backup path, then move the complete active skills/ directory to that Backup. Do not delete, merge, or overwrite anything.
+4. Copy the complete superpowers-lite skills/ directory into the original location. Preserve every file outside skills/, then verify the installed and downloaded trees match recursively and the Backup is intact.
+5. Report the original version, installed path, Backup path, source commit, verification result, restart/new-session requirement, and an exact Rollback command. Do not execute Rollback.
+
+Change no application project, project configuration, AGENTS.md, CLAUDE.md, or docs/superpowers/ content. Do not claim success without fresh verification.</pre></section>
+        <section id="verify"><h2>Verify in a clean session</h2><p>Restart the harness or open a new session. The UI may still say “Superpowers” because Lite intentionally keeps the installed adapter. In a disposable repository, test two different task shapes:</p><div class="data-grid"><article class="data-card"><strong>Ambiguous</strong><span><code>Let's make a React todo list.</code> should trigger brainstorming before implementation.</span></article><article class="data-card"><strong>Explicit</strong><span>A small documentation correction should proceed directly and end with fresh verification.</span></article></div><p>This smoke test checks routing behavior. It does not prove token savings, accuracy, or compatibility with every harness.</p></section>
+        <section id="rollback"><h2>Rollback</h2><p>Use the exact backup path reported during installation. The rollback itself should remain recoverable and should not touch application projects.</p><pre class="code-block">Rollback Superpowers Lite using this exact Backup path:
+&lt;PASTE_BACKUP_PATH&gt;
+
+Find the currently active Superpowers skills/ directory, verify that the Backup contains using-superpowers/SKILL.md, show both exact paths, and restore the Backup using recoverable move operations. Do not delete either tree or modify project files. Verify the restored skills and tell me whether to restart the harness or open a new session.</pre></section>
+        <section id="updates"><h2>When upstream updates</h2><p>An update to the upstream plugin may replace the overlaid skills. Re-run the same installation process against the current Lite release, creating a new backup each time. Review the <a href="/superpowers-lite/comparison/">compatibility boundary</a> and <a href="/superpowers-lite/evidence/">evidence limits</a> before adopting Lite in a critical workflow.</p><div class="callout warning"><h3>Ownership and support</h3><p>This guide and the overlay are maintained by nanyumeng. They are unofficial and are not endorsed or supported by Superpowers, OpenAI, or Anthropic. Report Lite-specific problems in the <a href="https://github.com/nanyumeng/superpowers-lite/issues">Lite issue tracker</a>, not upstream issue threads.</p></div></section>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="shell footer-grid"><div><a class="brand" href="/superpowers-lite/"><span class="brand-mark">SL</span><span>Superpowers Lite</span></a><p>An unofficial derivative of <a href="https://github.com/obra/superpowers">obra/superpowers</a>, based on v6.1.1. Maintained and promoted by <a href="https://github.com/nanyumeng">nanyumeng</a>; not endorsed by Superpowers, OpenAI, or Anthropic.</p></div><div class="footer-links"><strong>Use it</strong><a href="/superpowers-lite/install/">Install &amp; rollback</a><a href="/superpowers-lite/comparison/">Comparison</a><a href="/superpowers-lite/evidence/">Evidence</a></div><div class="footer-links"><strong>Project</strong><a href="/superpowers-lite/faq/">FAQ</a><a href="https://github.com/nanyumeng/superpowers-lite">GitHub repository</a><a href="/superpowers-lite/zh-CN/" lang="zh-CN">简体中文</a></div></div></footer>
+</body>
+</html>
