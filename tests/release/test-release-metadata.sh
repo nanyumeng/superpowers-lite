@@ -82,6 +82,8 @@ interface = codex.get("interface", {})
 assert_equal(interface.get("displayName"), "Superpowers Lite", "Codex display name")
 assert_equal(interface.get("developerName"), "nanyumeng", "Codex developer name")
 assert_equal(interface.get("websiteURL"), repository, "Codex website URL")
+assert_equal(interface.get("composerIcon"), "./assets/superpowers-small.svg", "Codex composer icon")
+assert_equal(interface.get("logo"), "./assets/superpowers-small.svg", "Codex logo")
 assert_equal(
     interface.get("privacyPolicyURL"),
     repository + "/blob/main/PRIVACY.md",
@@ -92,6 +94,8 @@ assert_equal(
     repository + "/blob/main/LICENSE",
     "Codex terms URL",
 )
+if (root / "assets/app-icon.png").exists():
+    raise AssertionError("inherited upstream PNG must not remain in the Lite release")
 
 for relative_path in [
     "package.json",

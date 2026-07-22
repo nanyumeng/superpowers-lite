@@ -40,9 +40,9 @@
     "websiteURL": "https://github.com/nanyumeng/superpowers-lite",
     "privacyPolicyURL": "https://github.com/nanyumeng/superpowers-lite/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/nanyumeng/superpowers-lite/blob/main/LICENSE",
-    "brandColor": "#F59E0B",
+    "brandColor": "#38BDF8",
     "composerIcon": "./assets/superpowers-small.svg",
-    "logo": "./assets/app-icon.png",
+    "logo": "./assets/superpowers-small.svg",
     "screenshots": []
   }
 }
