@@ -26,7 +26,8 @@ Process skills set the approach; implementation skills carry it out.
 
 ## Platform Adaptation
 
-If your harness appears here, read its reference file for special instructions:
+If your harness appears here, read its reference file for special instructions.
+Resolve these paths relative to this `SKILL.md` file:
 
 - Codex: `references/codex-tools.md`
 - Pi: `references/pi-tools.md`
