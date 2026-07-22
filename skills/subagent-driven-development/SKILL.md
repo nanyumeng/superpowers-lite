@@ -1,6 +1,6 @@
 ---
 name: subagent-driven-development
-description: Use when executing implementation plans with independent tasks in the current session
+description: Use for multi-task plans needing isolation, high-risk changes, or when the user asks for independent per-task review - default plan execution is executing-plans
 ---
 
 # Subagent-Driven Development
